@@ -95,11 +95,27 @@ $(function() {
          * Remember, loadFeed() is asynchronous so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
+
+        it('There is at least one feed when the loadFeed function is called', function(done){
+            init();
+            expect($('.feed').children()).not.toBe(0);
+            done();
+        });
     });
     /* TODO: Write a new test suite named "New Feed Selection" */
-
+    describe('New Feed Selection', function(){
         /* TODO: Write a test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
+
+        it('Feed content changes when a new feed is loaded', function(done){
+            let oldFeedLength = $('.feed').children().length;
+            loadFeed(0, function(){
+                let newFeedLenth = $('.feed').children().length;
+                expect(newFeedLenth).not.toBe(oldFeedLength);
+                done();
+            });            
+        });
+    });
 }());
