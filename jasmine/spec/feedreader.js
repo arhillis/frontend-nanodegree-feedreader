@@ -1,13 +1,4 @@
-/* feedreader.js
- *
- * This is the spec file that Jasmine will read and contains
- * all of the tests that will be run against your application.
- */
 
-/* We're placing all of our tests within the $() function,
- * since some of these tests may require DOM elements. We want
- * to ensure they don't run until the DOM is ready.
- */
 $(function() {
     describe('RSS Feeds', function() {
         it('are defined', function() {
@@ -16,19 +7,17 @@ $(function() {
         });
 
         it('all URLs are defined', function(){
-           let allBlankURLs = allFeeds.filter(function(feed){
-                return feed.url === "";
+           allFeeds.forEach(feed => {
+               expect(feed.url).toBeDefined();
+               expect(feed.url.length).toBeGreaterThan(0);
            });
-
-           expect(allBlankURLs.length).toBe(0);
         });
 
         it('all feed names are defined', function(){
-            let allBlankNames = allFeeds.filter(function(feed){
-                return feed.name === "";
+            allFeeds.forEach(feed => {
+                expect(feed.name).toBeDefined();
+                expect(feed.name.length).toBeGreaterThan(0);
             });
-
-            expect(allBlankNames.length).toBe(0);
         });
     });
 
@@ -55,9 +44,10 @@ $(function() {
     describe('Initial Entries', function(){
 
         it('There is at least one feed when the loadFeed function is called', function(done){
-            init();
-            expect($('.entry').children()).not.toBe(0);
-            done();
+            loadFeed(0, function(){
+                expect($('.feed .entry').length).toBeGreaterThan(0);
+                done();
+            });
         });
     });
     describe('New Feed Selection', function(){
