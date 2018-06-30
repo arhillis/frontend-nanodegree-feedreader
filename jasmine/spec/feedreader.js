@@ -51,14 +51,21 @@ $(function() {
         });
     });
     describe('New Feed Selection', function(){
+        let feedAfterFirstLoad, feedAfterSecondLoad;
+
+        beforeEach(function(done){
+            loadFeed(0, function(){
+                feedAfterFirstLoad = $('.feed').html();
+                loadFeed(1, function(){
+                    feedAfterSecondLoad = $('.feed').html();
+                    done();
+                });
+            });
+        });
 
         it('Feed content changes when a new feed is loaded', function(done){
-            let oldFeedLength = $('.feed').children().length;
-            loadFeed(0, function(){
-                let newFeedLenth = $('.feed').children().length;
-                expect(newFeedLenth).not.toBe(oldFeedLength);
-                done();
-            });            
+            expect(feedAfterFirstLoad).not.toBe(feedAfterSecondLoad);
+            done();
         });
     });
 }());
